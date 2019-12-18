@@ -6,7 +6,7 @@ function Nav(props) {
   return (
     <NavStyles>
       <Link href="/items">
-        <a>Items</a>
+        <a>Shop</a>
       </Link>
 
       <Link href="/sell">
