@@ -12,7 +12,7 @@ class MyApp extends App {
     }
     //exposing the query to the user:
     pageProps.query = ctx.query
-    return pageProps
+    return { pageProps }
   }
   render() {
     const { Component, apollo, pageProps } = this.props
