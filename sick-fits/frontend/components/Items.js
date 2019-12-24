@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import styled from 'styled-components';
-
-import Item from './Item'
+import Pagination from './Pagination';
+import Item from './Item';
 
 //It's best practice to put all queries in caps
 //queries should be named so it is easy to call them the same as their variable
@@ -39,6 +39,7 @@ class Items extends Component {
   render() {
     return (
       <Center>
+        <Pagination/>
         <Query query={ALL_ITEMS_QUERY}>
           {({data, error, loading}) => {
             console.log(data)
@@ -53,6 +54,7 @@ class Items extends Component {
             </ItemsList>
           }}
         </Query>
+        <Pagination/>
       </Center>
     );
   }
