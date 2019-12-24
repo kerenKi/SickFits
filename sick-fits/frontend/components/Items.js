@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 // Imports for making a query
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
+
 import styled from 'styled-components';
 import Pagination from './Pagination';
 import Item from './Item';
@@ -39,7 +40,7 @@ class Items extends Component {
   render() {
     return (
       <Center>
-        <Pagination/>
+        <Pagination page={this.props.page}/>
         <Query query={ALL_ITEMS_QUERY}>
           {({data, error, loading}) => {
             console.log(data)
@@ -54,7 +55,7 @@ class Items extends Component {
             </ItemsList>
           }}
         </Query>
-        <Pagination/>
+        <Pagination page={this.props.page}/>
       </Center>
     );
   }
