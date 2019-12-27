@@ -1,8 +1,10 @@
+import Reset from '../components/Reset';
 
-const Reset = (props) => (
+const ResetPassword = (props) => (
   <div> 
-   <p>reset password</p>
+    <p>reset password</p>
+    <Reset resetToken={props.query.resetToken}/>
   </div>   
 )
 
-export default Reset;
+export default ResetPassword;
