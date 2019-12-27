@@ -8,11 +8,19 @@ const Mutations = {
 
   async createItem (parent, args, ctx, info) {
     //TODO check if user is logged in
-    
+    if(!ctx.request.userId) {
+      throw new Error(`You must be logged in to do that!`)
+    }
     //ctx.db access the db (we set it up in createServer.js)
     const item = await ctx.db.mutation.createItem({
       data: {
-        //spreading the args object instead of copying all the fields separately 
+        //Creating a relationship between the Item and the User
+        user: {
+          connect: {
+            id: ctx.request.userId
+          }
+        },
+        //Spreading the args object instead of copying all the fields separately
         ...args
       }
     }, info)
@@ -31,7 +39,7 @@ const Mutations = {
       where: {
         id: args.id
       }
-    }, info) 
+    }, info)
   },
 
   async deleteItem (parent, args, ctx, info) {
@@ -52,8 +60,8 @@ const Mutations = {
     // Create user in the database
     const user = await ctx.db.mutation.createUser({
       data:{
-        name: args.name, 
-        email: args.email, 
+        name: args.name,
+        email: args.email,
         password,
         permissions: {set:['USER']}
       }
@@ -87,7 +95,7 @@ const Mutations = {
       httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24 * 7 // 1 week cookie
     })
-    //5. return the user 
+    //5. return the user
     return user
   },
 
@@ -151,7 +159,7 @@ const Mutations = {
     //5. save new password to user and remove resetToken fields
     const updatedUser = await ctx.db.mutation.updateUser({
       where: { email: user.email },
-      data: { 
+      data: {
         password,
         resetToken: null,
         resetTokenExpiry: null
