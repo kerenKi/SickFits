@@ -1,0 +1,27 @@
+import React, { Component } from 'react';
+import { Query } from 'react-apollo';
+import { CURRENT_USER_QUERY } from './User'
+import  Signin  from './Signin'
+
+const PleaseSignIn = props => {
+  return (
+    <Query query={ CURRENT_USER_QUERY }>
+      { payload => {
+        const { data, loading } = payload
+        if(loading) { return <p>Loading...</p>}
+        if(!data.me) {
+          return (
+            <div>
+              <p> Please Sign In </p>
+              <Signin/>
+            </div>
+          )
+        }
+        return props.children
+      }}
+    </Query>
+  )
+}
+
+export default PleaseSignIn;
+
