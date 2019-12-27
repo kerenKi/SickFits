@@ -1,10 +1,21 @@
 import React from 'react';
 import Link from 'next/link';
 import NavStyles from './styles/NavStyles'
+import User from './User';
 
 function Nav(props) {
   return (
     <NavStyles>
+      <User>
+        { (payload) => {
+          const { me } = payload.data
+          console.log(me)
+          if (me) {
+          return <p>Hello {me.name}</p>
+          }
+          return null
+        }}
+      </User>
       <Link href="/items">
         <a>Shop</a>
       </Link>

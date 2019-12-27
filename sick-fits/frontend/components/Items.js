@@ -49,8 +49,9 @@ class Items extends Component {
         <Query query={ALL_ITEMS_QUERY} variables={{
           skip: this.props.page * perPage - perPage,
         }}>
-          {({data, error, loading}) => {
-            console.log(data)
+          {(payload) => {
+            //Deconstruct the payload
+            const {data, error, loading} = payload
             if (loading) {
               return <p>Loading...</p>
             }
