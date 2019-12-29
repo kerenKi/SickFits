@@ -1,5 +1,5 @@
 const { forwardTo } = require('prisma-binding');
-const { hasPermissions } = require('../utils');
+const { hasPermission } = require('../utils');
 
 const Query = {
   //forward the Api straight to the db. good for simple cases without authentication and such
@@ -17,14 +17,15 @@ const Query = {
   },
   async  users (parent, args, ctx, info) {
     //1. check if the user is logged in
-    if(ctx.request.userId){
+    if(!ctx.request.userId){
       throw new Error('You must be logged in')
     }
     //2. check if the user has permission to query all the users
-    hasPermissions(ctx.request.user, ['ADMIN', 'PERMISSIONUPDATE'])
+    //TODO delete 'USER' from permissions list
+    hasPermission(ctx.request.user, ['ADMIN', 'PERMISSIONUPDATE', 'USER'])
 
     //3. if they do - query all the users
-    return ctx.db.users({}, info)
+    return ctx.db.query.users({}, info)
 
   }
 };
