@@ -12,7 +12,7 @@ type Mutation {
   signout: SuccesMessage
   requestReset ( email: String! ): SuccesMessage
   resetPassword ( resetToken: String!, password: String!, confirmPassword: String!): User!
-  updatePErmissions (userId: ID!, permissions: [Permission]): User!
+  updatePermissions (userId: ID!, permissions: [Permission]): User!
 }
 
 type Query {
