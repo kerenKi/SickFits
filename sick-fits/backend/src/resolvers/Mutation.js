@@ -47,9 +47,24 @@ const Mutations = {
   async deleteItem (parent, args, ctx, info) {
     const where = { id: args.id }
     // 1. find the item
-    const item = await ctx.db.query.item({where}, `{id title}`)
+    const item = await ctx.db.query.item({where}, `{
+      id
+      title
+      user {
+        id
+      }
+    }`)
     // 2. check for permission - if they own it or admin that has permission
-    //TODO
+
+    //check if the user is the item owner. ownItem is a boolean
+    const ownItem = item.user.id === ctx.request.userId
+    //looping over the user permissions to check if he has one of the right permissions. returns a boolean
+    const hasPermissions = ctx.request.user.permissions.some(permission => ['ADMIN', 'ITEMDELETE'].includes(permission))
+
+    if(!ownItem && !hasPermissions) {
+      throw new Error('You are not allowed!');
+    }
+
     // 3. delete the item
     return ctx.db.mutation.deleteItem({ where }, info)
   },
@@ -124,7 +139,6 @@ const Mutations = {
         resetTokenExpiry
       }
     })
-    console.log(res)
     //3. email reset token
     const mailRes = await transport.sendMail({
       from: 'wes@wesbos.com',
@@ -191,20 +205,22 @@ const Mutations = {
       throw new Error(`There is no user with the id ${userId}`)
     }
     //3. check for permission to do that
-    hasPermission(user, ['ADMIN', 'PERMISSIONUPDATE'])
+    hasPermission(user, ['ADMIN', 'PERMISSIONUPDATE',])
     //4. update the permissions
-    return ctx.db.mutation.updatePermissions({
+    return ctx.db.mutation.updateUser({
       data: {
-        id: user.id,
         permissions: {
-          set: args.permissions
+          set: args.permissions,
         }
       },
       where: {
         id: args.userId
-      }
-    }, info)
+      },
+    }, info
+    )
   },
+
+
 };
 
 module.exports = Mutations;

@@ -21,8 +21,7 @@ const Query = {
       throw new Error('You must be logged in')
     }
     //2. check if the user has permission to query all the users
-    //TODO delete 'USER' from permissions list
-    hasPermission(ctx.request.user, ['ADMIN', 'PERMISSIONUPDATE', 'USER'])
+    hasPermission(ctx.request.user, ['ADMIN', 'PERMISSIONUPDATE', ])
 
     //3. if they do - query all the users
     return ctx.db.query.users({}, info)

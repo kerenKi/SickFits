@@ -19,7 +19,7 @@ server.express.use((req, res, next) => {
   next()
 });
 
-// TODO Use express middleware to populate current user on each request
+// Use express middleware to populate current user on each request
 server.express.use(async (req, res, next) => {
   const { userId } = req
   //if the user is not logged in just continue
