@@ -1,8 +1,10 @@
-import Nav from './Nav'
 import Link from 'next/link'
-import styled from 'styled-components'
 import Router from 'next/router';
 import NProgress from 'nprogress';
+import styled from 'styled-components';
+import Nav from './Nav';
+import Cart from './Cart';
+
 
 Router.onRouteChangeStart = () => {
   console.log('onRouteChangeStart Triggered')
@@ -65,15 +67,15 @@ const Header = () => (
       <Logo>
         <Link href="/">
           <a>Sick Fits</a>
-        </Link>  
+        </Link>
       </Logo>
       <Nav/>
     </div>
     <div className="sub-bar">
       <p>Search</p>
     </div>
-    <div>cart</div>
+    <Cart/>
   </StyledHeader>
-) 
+)
 
 export default Header;
