@@ -227,17 +227,19 @@ const Mutations = {
       throw new Error(`You must be logged in to do that!`)
     }
     //2. query current cart
-    const [existingCartItem] = ctx.db.query.cartItems({
-      user: { id: userId },
-      item: { id: args.id },
-    })
+    const [existingCartItem] = await ctx.db.query.cartItems({
+      where: {
+        user: { id: userId },
+        item: { id: args.id },
+      }
+    }, info)
     //3. check if the item is already in the cart. if so - increment by 1
     if(existingCartItem) {
       console.log('item already exist on cart')
       return ctx.db.mutation.updateCartItem({
         where: { id: existingCartItem.id },
         data: {
-          quantity = existingCartItem.quantity + 1
+          quantity: existingCartItem.quantity + 1
         }
       })
     }
@@ -251,7 +253,7 @@ const Mutations = {
           connect: { id: args.id }
         },
       }
-    })
+    }, info)
 
   },
 

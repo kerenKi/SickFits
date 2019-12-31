@@ -30,9 +30,7 @@ server.express.use(async (req, res, next) => {
     { where: { id: userId }},
     '{ id, name, email, permissions }'
     ).then( user => {
-      console.log('user:', user)
       req.user = user
-      console.log('req:', req)
       next()
     })
     .catch(error => {
