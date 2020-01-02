@@ -27,14 +27,25 @@ class RemoveFromCart extends Component {
   static propTypes = {
     id: PropTypes.string.isRequired,
   }
+
+  // update gets called when the response coe back from the server after a nutation
+  update =  (cache, payload) => {
+    //read the cache
+    const data = cache.readQuery({ query : CURRENT_USER_QUERY })
+    console.log(data)
+    //remove item from cart
+    const itemToRemoveId = payload.data.removeFromCart.id
+    data.me.cart = data.me.cart.filter( item => item.id !== itemToRemoveId)
+    //write back to cache
+    cache.writeQuery({ query : CURRENT_USER_QUERY, data: data })
+  }
+
   render() {
     return (
       <Mutation
         mutation={ REMOVE_FROM_CART_MUTATION }
         variables={{ id: this.props.id }}
-        // refetchQueries={[
-        //   {query: CURRENT_USER_QUERY}
-        // ]}
+        update={this.update}
         >
         {(removeFromCart, { loading }) => (
           <BigButton
