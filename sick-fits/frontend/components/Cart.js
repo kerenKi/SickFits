@@ -25,9 +25,12 @@ const TOGGLE_CART_MUTATION = gql`
 `;
 // using react adopt to compose all the different components and avoid nesting
 const Composed = adopt({
-  user: <User/>,
-  toggleCart: <Mutation mutation={ TOGGLE_CART_MUTATION }/>,
-  localState: <Query query={ LOCAL_STATE_QUERY }/>
+  //To avoid the error: index.js:2178 Warning: Failed prop type: The prop `children` is marked as required in `User`, but its value is `undefined`.
+  //in User (at Cart.js:28)
+  //we make the user a function, destructure the render method and then pass it as a child to the User component
+  user: ({render}) => <User>{render}</User>,
+  toggleCart: ({render}) => <Mutation mutation={ TOGGLE_CART_MUTATION }>{render}</Mutation>,
+  localState: ({render}) => <Query query={ LOCAL_STATE_QUERY }>{render}</Query>
 })
 
 const Cart = (props) => {
@@ -36,7 +39,6 @@ const Cart = (props) => {
         {(payload) => {
           const { user, toggleCart, localState } = payload
           const me = user.data.me
-          console.log(me)
           if(!me) {
             return null
           }
