@@ -24,7 +24,6 @@ function createClient({ headers }) {
             const { cartOpen } = cache.readQuery({
               query: LOCAL_STATE_QUERY,
             })
-            console.log(cartOpen)
             //toggle the cart state
             const data = {
               data: {
