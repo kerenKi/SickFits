@@ -1,5 +1,4 @@
 import { mount } from 'enzyme';
-import toJSON from 'enzyme-to-json';
 import wait from 'waait';
 import PleaseSignIn from '../components/PleaseSignin';
 import { CURRENT_USER_QUERY } from '../components/User';
@@ -56,7 +55,7 @@ describe('<PleaseSignIn/>', () => {
     )
     await wait()
     wrapper.update()
-    console.log(wrapper.debug());
+    // console.log(wrapper.debug());
     //giving a selector to find the component
     expect(wrapper.find('ChildComponent').exists()).toBe(true)
     //passing the component itself

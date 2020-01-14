@@ -13,7 +13,7 @@ function Nav(props) {
       {payload => {
         const { me } = payload.data;
         return (
-          <NavStyles>
+          <NavStyles data-test="nav">
             <Link href="/items">
               <a>Shop</a>
             </Link>
